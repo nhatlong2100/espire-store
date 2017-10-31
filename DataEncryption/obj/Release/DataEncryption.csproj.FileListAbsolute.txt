@@ -1,5 +1,0 @@
-E:\ASPNET MVC\EspireShop\DataEncryption\bin\Release\DataEncryption.dll
-E:\ASPNET MVC\EspireShop\DataEncryption\bin\Release\DataEncryption.pdb
-E:\ASPNET MVC\EspireShop\DataEncryption\obj\Release\DataEncryption.csprojResolveAssemblyReference.cache
-E:\ASPNET MVC\EspireShop\DataEncryption\obj\Release\DataEncryption.dll
-E:\ASPNET MVC\EspireShop\DataEncryption\obj\Release\DataEncryption.pdb
