@@ -1,0 +1,170 @@
+﻿@model PagedList.IPagedList<Database.View.StaffView>
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Administrator/Views/Shared/_layout.cshtml";
+    string TypeId = ViewBag.TypeUser;
+}
+
+@section TitlePage{
+    Danh sách nhân viên
+}
+
+@section jsFooter{
+    <script>
+        //Xóa
+        function DeleteStaff(userId) {
+            swal({
+                title: "Are you sure?",
+                text: "Bạn có chắc xóa " + userId,
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Đồng ý!",
+                closeOnConfirm: false
+            },
+            function () {
+                $.ajax({
+                    url: "/Administrator/NhanVien/DeleteStaff",
+                    data: { userId: userId },
+                    datatype: "json",
+                    type: "post",
+                    success: function (response) {
+                        console.log(response);
+                        if (response.status == true) {
+                            $('.row-' + userId).remove();
+                            swal("Deleted!", "Xóa nhân viên ["+userId+"] thành công.", "success");
+                        } else if (response.status == false) {
+                            swal("Deleted!", "Xóa nhân viên [" + userId + "] không thành công.", "error");
+                        }
+                        else if (response.status == "NoAccess") {
+                            swal("Thông báo!", "Bạn không có quyền truy cập.", "error");
+                        }
+                    }
+                });
+
+            });
+        }
+        //Cập nhật trạng thái
+        var user = {
+            init: function () {
+                user.registerEvents();
+            },
+            registerEvents: function () {
+                $('.btn-Status').off('click').on('click', function (e) {
+                    e.preventDefault();
+                    var idUser = $(this).data('id');
+                    $.ajax({
+                        url: "/Administrator/NhanVien/ChangeStatus",
+                        data: { idUser: idUser },
+                        datatype: "json",
+                        type: "post",
+                        success: function (response) {
+                            console.log(response);
+                            if (response.status == true) {
+                                $('#btn-Status-' + idUser).text('Kích hoạt');
+                                swal("Thông báo!", "Tài khoản [" + idUser + "] đã kích hoạt!", "success")
+
+                            } else if(response.status==false) {
+                                $('#btn-Status-' + idUser).text('Khóa');
+                                swal("Thông báo!", "Tài khoản [" + idUser + "] đã bị khóa!", "success")
+                            }
+                            else if (response.status=="error") {
+                                swal("Thông báo!", "Tài khoản [" + idUser + "] không thể thay đổi trạng thái!", "error")
+                            }
+
+                        }
+                    });
+                })
+            }
+        };
+        user.init();
+    </script>
+}
+<div class="card">
+    <div class="card-block">
+
+        @using (Html.BeginForm("Index", "NhanVien", FormMethod.Get, new { @autocomplete = "off" }))
+        {
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <input type="text" class="form-control" placeholder="Từ khóa" name="SearchKey" id="SearchKey" />
+                </div>
+                <div class="col-md-6">
+                    <button class="btn btn-outline-info"><span class="ti-search"></span> Tìm kiếm</button>
+                    @if (TypeId.ToUpper() == "CV001")
+                    {
+                        <a href="/Administrator/NhanVien/ThemMoi" class="btn btn-outline-success"><span class="ti-plus"></span> Thêm mới</a>
+                        <a href="@Url.Action("ExportToExcel","NhanVien")" class="btn btn-outline-success"><span class="ti-export"></span> Xuất file Excel</a>
+                    }
+                </div>
+                <div class="col-md-3">
+                    <div class="dropdown inline-block">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                            <span>Lọc nâng cao</span>
+                            <i class="ti-angle-down font-size-9"></i>
+                        </button>
+                        <ul class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+                            <li>
+                                <a href="/Administrator/NhanVien?type=SXTT">Sắp xếp theo tên</a>
+                                <a href="/Administrator/NhanVien?type=LTA">Lọc theo Administrator</a>
+                                <a href="/Administrator/NhanVien?type=LTQL">Lọc theo Quản lý</a>
+                                <a href="/Administrator/NhanVien?type=LTNV">Lọc theo Nhân viên</a>
+                                <a href="/Administrator/NhanVien?type=SNTT">Sinh nhật trong tháng</a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <h4 class="card-title">Danh sách nhân viên</h4>
+        <div class="table-overflow table-responsive">
+            <table class="table-striped table table-hover">
+                <thead>
+                    <tr>
+                        <th>Chức vụ</th>
+                        <th>Họ tên</th>
+                        <th>Giới tính</th>
+                        <th>Ngày sinh</th>
+                        <th>Điện thoại</th>
+                        <th>Trạng thái</th>
+                        <th>#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="row-@item.userId">
+                            <td>@item.typeName</td>
+                            <td>@item.FullName</td>
+                            <td>@(item.Sex ? "Nam" : "Nữ")</td>
+                            <td>@(item.BirthDay.ToString("dd/MM/yyyy"))</td>
+                            <td>@item.PhoneNumber</td>
+                            <td>
+                                @if (TypeId.ToUpper() == "CV001")
+                                {
+                                    <a href="#" id="btn-Status-@item.userId" class="btn-Status" data-id="@item.userId">@(item.Status ? "Kích hoạt" : "Khóa")</a>
+                                }
+                                else
+                                {
+                                    @(item.Status ? "Kích hoạt" : "Khóa")
+                                }
+                            </td>
+                            <td>
+                                @if (TypeId.ToUpper() == "CV001")
+                                {
+                                    <a href="/Administrator/NhanVien/CapNhat?id=@item.userId"><span class="ti-reload"></span></a>
+                                    <a href="#" onclick="DeleteStaff('@item.userId')"><span class="ti-trash"></span></a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+        </div>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EspireShop", "EspireShop\EspireShop.csproj", "{74B6C8D1-C2D4-4C39-8A7A-3AFE24304951}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{7CE7B741-4B6F-4D6F-A69D-2496BFCFDF78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataEncryption", "DataEncryption\DataEncryption.csproj", "{017D47E3-8F85-4DCE-BC16-9EFEA65631D3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{74B6C8D1-C2D4-4C39-8A7A-3AFE24304951}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74B6C8D1-C2D4-4C39-8A7A-3AFE24304951}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74B6C8D1-C2D4-4C39-8A7A-3AFE24304951}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74B6C8D1-C2D4-4C39-8A7A-3AFE24304951}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CE7B741-4B6F-4D6F-A69D-2496BFCFDF78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CE7B741-4B6F-4D6F-A69D-2496BFCFDF78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CE7B741-4B6F-4D6F-A69D-2496BFCFDF78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CE7B741-4B6F-4D6F-A69D-2496BFCFDF78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{017D47E3-8F85-4DCE-BC16-9EFEA65631D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{017D47E3-8F85-4DCE-BC16-9EFEA65631D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{017D47E3-8F85-4DCE-BC16-9EFEA65631D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{017D47E3-8F85-4DCE-BC16-9EFEA65631D3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

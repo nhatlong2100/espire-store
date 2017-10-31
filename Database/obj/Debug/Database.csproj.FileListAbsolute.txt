@@ -1,0 +1,14 @@
+E:\ASPNET MVC\EspireShop\Database\bin\Debug\Database.dll.config
+E:\ASPNET MVC\EspireShop\Database\bin\Debug\Database.dll
+E:\ASPNET MVC\EspireShop\Database\bin\Debug\Database.pdb
+E:\ASPNET MVC\EspireShop\Database\bin\Debug\EntityFramework.dll
+E:\ASPNET MVC\EspireShop\Database\bin\Debug\EntityFramework.SqlServer.dll
+E:\ASPNET MVC\EspireShop\Database\bin\Debug\EntityFramework.xml
+E:\ASPNET MVC\EspireShop\Database\bin\Debug\EntityFramework.SqlServer.xml
+E:\ASPNET MVC\EspireShop\Database\obj\Debug\Database.dll
+E:\ASPNET MVC\EspireShop\Database\obj\Debug\Database.pdb
+E:\ASPNET MVC\EspireShop\Database\bin\Debug\PagedList.dll
+E:\ASPNET MVC\EspireShop\Database\bin\Debug\PagedList.Mvc.dll
+E:\ASPNET MVC\EspireShop\Database\bin\Debug\PagedList.xml
+E:\ASPNET MVC\EspireShop\Database\bin\Debug\PagedList.Mvc.xml
+E:\ASPNET MVC\EspireShop\Database\obj\Debug\Database.csprojResolveAssemblyReference.cache

@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <title>Espire - @RenderSection("TitlePage", required: true)</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/Assets/Admin/images/logo/favicon.png">
+
+    <!-- plugins css -->
+    <link rel="stylesheet" href="/Assets/Admin/bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="/Assets/Admin/bower_components/PACE/themes/blue/pace-theme-minimal.css" />
+    <link rel="stylesheet" href="/Assets/Admin/bower_components/perfect-scrollbar/css/perfect-scrollbar.min.css" />
+
+    <!-- page plugins css -->
+    <link rel="stylesheet" href="/Assets/Admin/bower_components/bower-jvectormap/jquery-jvectormap-1.2.2.css" />
+    <link rel="stylesheet" href="/Assets/Admin/bower_components/nvd3/build/nv.d3.min.css" />
+    <link href="/Content/PagedList.css" rel="stylesheet" />
+    <!-- core css -->
+    <link href="/Assets/Admin/css/ei-icon.css" rel="stylesheet">
+    <link href="/Assets/Admin/css/themify-icons.css" rel="stylesheet">
+    <link href="/Assets/Admin/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/Assets/Admin/css/animate.min.css" rel="stylesheet">
+    <link href="/Assets/Admin/css/app.css" rel="stylesheet">
+    <link href="/Assets/Public/sweetalert/sweetalert.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="app is-collapsed">
+        <div class="layout">
+            <!-- Side Nav START -->
+            @RenderPage("_Category.cshtml")
+
+            <!-- Side Nav END -->
+            <!-- Page Container START -->
+            <div class="page-container">
+                <div class="row">
+                    <!-- Header START -->
+                    <div class="col-md-3">
+                        @{Html.RenderAction("_Header", "TrangChu"); }
+                    </div>
+                    <!-- Header END -->
+                    <!-- Content Wrapper START -->
+                    <div class="col-md-12">
+                        <div class="main-content">
+                            <div class="container-fluid">
+
+                                @if (@TempData["message"] != null)
+                                {
+                                    <div class="alert @TempData["AlertType"]" role="alert">
+                                        @TempData["message"]
+                                    </div>
+                                }
+                                @*Body*@
+                                @RenderBody()
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Content Wrapper END -->
+                    <!-- Footer START -->
+                </div>
+                <footer class="content-footer">
+                    <div class="footer">
+                        <div class="copyright">
+                            <span>Copyright © 2018 <b class="text-dark">Espire</b>. All rights reserved.</span>
+                            <span class="go-right">
+                                <a href="javascript:void(0)" class="text-gray mrg-right-15">Term &amp; Conditions</a>
+                                <a href="javascript:void(0)" class="text-gray">Privacy &amp; Policy</a>
+                            </span>
+                        </div>
+                    </div>
+                </footer>
+                <!-- Footer END -->
+
+            </div>
+            <!-- Page Container END -->
+
+        </div>
+    </div>
+
+    <script src="/Assets/Admin/js/vendor.js"></script>
+
+    <!-- page plugins js -->
+    <script src="/Assets/Admin/bower_components/bower-jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="/Assets/Admin/js/maps/jquery-jvectormap-us-aea.js"></script>
+    <script src="/Assets/Admin/bower_components/d3/d3.min.js"></script>
+    <script src="/Assets/Admin/bower_components/nvd3/build/nv.d3.min.js"></script>
+    <script src="/Assets/Admin/bower_components/jquery.sparkline/index.js"></script>
+    <script src="/Assets/Admin/bower_components/chart.js/dist/Chart.min.js"></script>
+
+    <script src="/Assets/Admin/js/app.min.js"></script>
+    <script src="/Assets/Public/sweetalert/sweetalert-dev.js"></script>
+    <!-- page js -->
+    <script src="/Assets/Admin/js/dashboard/dashboard.js"></script>
+    <script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    @*Plugin*@
+    <script src="/Assets/Public/Plugins/ckeditor/ckeditor.js"></script>
+    <script src="/Assets/Public/Plugins/ckfinder/ckfinder.js"></script>
+    @RenderSection("jsFooter", required: false)
+    <script>
+        $(".alert").delay(4000).slideUp(200, function () {
+            $(this).alert('close');
+        });
+    </script>
+</body>
+
+</html>
