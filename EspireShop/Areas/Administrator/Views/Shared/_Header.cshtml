@@ -1,0 +1,45 @@
+﻿@{
+    var info = ViewBag.Info as Database.EF.tbl_Staff;
+    var session = (EspireShop.Common.StaffLogin)Session[EspireShop.Common.CommonConstants.STAFF_SESSION];
+}
+<div class="header navbar">
+    <div class="header-container">
+        <ul class="nav-right">
+            <li class="user-profile dropdown">
+                <a href="/ class=" dropdown-toggle" data-toggle="dropdown">
+                    <img class="profile-img img-fluid" src="@info.Image" alt="">
+                    <div class="user-info">
+                        @if (session.UserType.ToUpper() == "CV001")
+                        {
+                            <span class="name pdd-right-5" style="color:red">@info.FullName</span>
+                        }
+                        else if (session.UserType.ToUpper() == "CV002")
+                        {
+                            <span class="name pdd-right-5" style="color:blue">@info.FullName</span>
+                        }
+                        else
+                        {
+                            <span class="name pdd-right-5">@info.FullName</span>
+                        }
+                        <i class="ti-angle-down font-size-10"></i>
+                    </div>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="@Url.Action("DoiMatKhau","NhanVien")">
+                            <i class="ti-email pdd-right-10"></i>
+                            <span>Đổi mật khẩu</span>
+                        </a>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <a href="/Administrator/DangNhap/LogOut">
+                            <i class="ti-power-off pdd-right-10"></i>
+                            <span>Đăng xuất</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,122 @@
+﻿@model Database.EF.tbl_Staff
+
+@{
+    ViewBag.Title = "ThemMoi";
+    Layout = "~/Areas/Administrator/Views/Shared/_layout.cshtml";
+}
+
+@section TitlePage{
+    Cập nhật thông tin
+}
+@section jsFooter{
+<script>
+    $('#avatarImage').attr("src", $('#txtImage').val());
+    $('#btnSelectImage').on('click', function (e) {
+        e.preventDefault();
+        var finder = new CKFinder();
+        finder.selectActionFunction = function (url) {
+            $('#txtImage').val(url);
+            $('#avatarImage').attr("src", url);
+        };
+        finder.popup();
+    })
+    });
+</script>
+}
+<div class="card">
+    <div class="card-block">
+        <h4 class="card-title">Cập nhật thông tin nhân viên</h4>
+        @using (Html.BeginForm("CapNhat", "NhanVien", FormMethod.Post, new { @autocomplete = "off" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.UserID)
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.TypeUser, htmlAttributes: new { @class = "col-form-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.TypeUser, null, "Chọn nhóm", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.TypeUser, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "col-form-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.HiddenFor(model => model.Image, new { @class = "form-control", @id = "txtImage" })
+                        <img id="avatarImage" width="150px" height="200px" />
+                        <a id="btnSelectImage" href="#">Chọn ảnh</a>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Emaill, htmlAttributes: new { @class = "col-form-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Emaill, new { @class = "form-control", @type = "email" })
+                        @Html.ValidationMessageFor(model => model.Emaill, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "col-form-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "col-form-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.FullName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Sex, htmlAttributes: new { @class = "col-form-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.DropDownListFor(model => model.Sex,
+                           new SelectList(new List<Object>
+                           {
+                               new { value = true , text = "Nam"  },
+                               new { value = false , text = "Nữ"  },
+                           }, "value", "text"),
+                           "Chọn giới tính",
+                            new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Sex, "", new { @class = "text-danger" })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Sex, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.BirthDay, htmlAttributes: new { @class = "col-form-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.BirthDay, new { @class = "form-control", @type = "text" })
+                        @Html.ValidationMessageFor(model => model.BirthDay, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "col-form-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Address, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Cập nhật" class="btn btn-outline-success" />
+                        <a href="/Administrator/NhanVien/ResetPassword?userId=@Model.UserID" class="btn btn-outline-info">Reset mật khẩu</a>
+                        <a href="/Administrator/NhanVien" class="btn btn-outline-secondary">Quay lại</a>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

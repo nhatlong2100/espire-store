@@ -1,0 +1,153 @@
+﻿@model PagedList.IPagedList<Database.View.NewsView>
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Administrator/Views/Shared/_layout.cshtml";
+    var listCategory = ViewBag.ListCategory as List<Database.EF.tbl_NewCategory>;
+}
+
+@section TitlePage{
+    Danh sách tin tức
+}
+
+@section jsFooter{
+    <script>
+        //Xóa
+        function DeleteNew(newId) {
+            swal({
+                title: "Are you sure?",
+                text: "Bạn có chắc xóa tin tức này: " + newId,
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Đồng ý!",
+                closeOnConfirm: false
+            },
+            function () {
+                $.ajax({
+                    url: "/Administrator/TinTuc/XoaTin",
+                    data: { newId: newId },
+                    datatype: "json",
+                    type: "post",
+                    success: function (response) {
+                        console.log(response);
+                        if (response.status == true) {
+                            $('.row_' + newId).remove();
+                            swal("Deleted!", "Xóa mẫu tin [" + newId + "] thành công.", "success");
+                        } else if (response.status == false) {
+                            swal("Deleted!", "Xóa mẫu [" + newId + "] không thành công.", "error");
+                        }
+                    }
+                });
+            })
+        };
+        //Thay đổi trạng thái:
+        var user = {
+            init: function () {
+                user.registerEvents();
+            },
+            registerEvents: function () {
+                $('.btn-status').off('click').on('click', function (e) {
+                    e.preventDefault();
+                    var newId = $(this).data('id');
+                    
+                    $.ajax({
+                        url: "/Administrator/TinTuc/ChangeStatus",
+                        data: {newId:newId},
+                        datatype:"json",
+                        type:"post",
+                        success: function (response) {
+                            if (response.status == true) {
+                                $('#btn-status-' + newId).text('Kích hoạt');
+                                swal("Thông báo!", "Tin tức [" + newId + "] đã kích hoạt!", "success")
+                            } else {
+                                $('#btn-status-' + newId).text('Khóa');
+                                swal("Thông báo!", "Tin tức [" + newId + "] đã bị khóa!", "success")
+                            }
+                        }
+                    });
+                })
+            }
+        };
+        user.init();
+    </script>
+}
+
+<div class="card">
+    <div class="card-block">
+        @using (Html.BeginForm("Index","TinTuc",FormMethod.Get,new { @autocomplete = "off" }))
+        {
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <input type="text" id="SearchKey" name="SearchKey" class="form-control" placeholder="Từ khóa tìm kiếm" />
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-outline-success">
+                        <span class="ti-search"> Tìm kiếm</span>
+                    </button>
+                    <a href="@Url.Action("DangTin","TinTuc")" class="btn btn-outline-primary" >
+                        <span class="ti-plus"> Đăng tin</span>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <!-- Example single danger button -->
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Lọc nâng cao
+                        </button>
+                        <div class="dropdown-menu">
+                            @foreach (var item in listCategory)
+                            {
+                                <a class="dropdown-item" href="/Administrator/TinTuc?filter=@item.CategoryNewID">@item.CategoryNewName</a>
+                            }
+
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/Administrator/TinTuc?filter=LuotXem">Sắp xếp lượt xem</a>
+                            <a class="dropdown-item" href="/Administrator/TinTuc?filter=BaiVietBiKhoa">Bài viết bị khóa</a>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        }
+        <h4 class="card-title">Danh sách tin tức</h4>
+        @if (Model.Count > 0)
+        {
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Danh mục</th>
+                        <th>Tiêu đề</th>
+                        <th>Lượt xem</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="row_@item.NewID">
+                            <td>@item.CategoryNewName</td>
+                            <td>@item.Title</td>
+                            <td>@item.View</td>
+                            <td>
+                                <a href="#" id="btn-status-@item.NewID" class="btn-status" data-id="@item.NewID">
+                                    @(item.Status ? "Kích hoạt" : "Khóa")
+                                </a>
+                            </td>
+                            <td>
+                                <a href="/Administrator/TinTuc/CapNhat?newid=@item.NewID">Cập nhật</a>
+                                <a href="#" onclick="DeleteNew('@item.NewID')">Xóa</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+        }
+        else
+        {
+            <h4>Đang cập nhật</h4>
+            }
+    </div>
+</div>

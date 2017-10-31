@@ -1,0 +1,50 @@
+﻿@model Database.EF.tbl_About
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Administrator/Views/Shared/_layout.cshtml";
+}
+
+@section TitlePage{
+    Cập nhật trang giới thiệu
+}
+@section jsFooter{
+    <script>
+        var editor = CKEDITOR.replace('txtContent', {
+        customConfig: '/Assets/Public/Plugins/ckeditor/config.js'
+        });
+</script>
+}
+
+<div class="card">
+    <div class="card-block">
+        <h4 class="card-title">Cập nhật trang giới thiệu</h4>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.ID)
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.TextAreaFor(model => model.Content, new { @class = "form-control", @id = "txtContent",@cols="20" })
+                        @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Cập nhật" class="btn btn-outline-success" />
+                        <a href="/Administrator/" class="btn btn-outline-warning">Hủy bỏ</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
